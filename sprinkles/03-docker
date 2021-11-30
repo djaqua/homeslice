@@ -1,0 +1,28 @@
+
+
+
+# -- Docker aliases ------------------------------------------------------------
+
+alias dcup='docker-compose up'
+alias dps='docker ps'
+alias dls='docker images'
+alias dlogs='docker logs'      
+alias drmi='docker rmi'
+
+# -- Docker functions ----------------------------------------------------------
+
+function dkill {
+    docker stop $1
+    docker rm $1
+}
+
+# Start a bash shell in a Docker container
+function dsh {
+    docker exec --interactive --tty $1 /bin/bash
+}
+
+function dnuke {
+	dkill `dps -a --filter "label=$1" --format "{{.ID}}"`
+	drmi `dls --filter "label=$1" --format "{{.ID}}"`
+}
+

@@ -1,0 +1,5 @@
+# -- VritualBox Aliases
+alias vmstart='VBoxManage startvm ReleaseBranchTest --type headless'
+alias vmstop='VBoxManage controlvm ReleaseBranchTest poweroff'
+alias vmstat='VBoxManage showvminfo ReleaseBranchTest | grep "running (since" | cat'
+

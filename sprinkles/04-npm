@@ -1,0 +1,12 @@
+# -- NPM environment variables -------------------------------------------------
+
+DEFAULT_NPM_PACKAGES="${HOME}/.npm-packages"
+
+export PATH="${NPM_PACKAGES:=$DEFAULT_NPM_PACKAGES}/bin:${PATH}"
+
+unset MANPATH
+export MANPATH="${NPM_PACKAGES}/share/man:$(manpath)"
+
+# -- NPM Aliases ---------------------------------------------------------------
+alias ni='npm install'
+

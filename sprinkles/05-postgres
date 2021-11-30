@@ -1,0 +1,3 @@
+# -- Postgres Variables
+export PGUSER=postgres
+

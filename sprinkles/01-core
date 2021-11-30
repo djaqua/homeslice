@@ -1,0 +1,83 @@
+# environment variables
+
+export cyan=`tput setaf 6`
+export red=`tput setaf 1`
+export blue=`tput setaf 4`
+export magenta=`tput setaf 5`
+export standout=`tput smso`
+export nostandout=`tput rmso`
+export bold=`tput bold`
+export clearf=`tput sgr0`
+
+export PROJECTS="${HOME}/projects"
+
+# -- functions -----------------------------------------------------------------
+function mkcd {
+
+    MKCD_USAGE="Usage: $0 [-p | --parents] [-v | --verbose] DIR"
+    
+    if [[ $# -eq 0 ]]; then
+        echo ${MKCD_USAGE}
+    fi
+
+    mkdir_flags=''
+    target_dir=''
+
+    while (( $# )); do
+        if [[ '-p' == "$1" || '--parents' == "$1" ]]; then
+            mkdir_flags="$mkdir_flags --parents"
+        elif [[ '-v' == "$1" || '--verbose' == "$1" ]]; then
+            mkdir_flags="$mkdir_flags --verbose"
+        else
+            target_dir=$1
+        fi
+
+        shift
+    done
+    
+    if [[ ! -d $target_dir ]]; then
+        mkdir `echo $mkdir_flags $target_dir`
+    fi       
+    cd $target_dir
+}
+
+function sandbox {
+    mkcd -f "${PROJECTS}/Sandbox/${1}"
+}
+
+function bak {
+    cp $1 $1.bak
+}
+
+function kab {
+    mv $1.bak $1
+}
+
+function lsif {
+    ls /sys/class/net
+}
+
+function qip {
+    ifconfig $1 | grep 'inet' | awk \
+    -v bold="$bold" \
+    -v clearf="$clearf" \
+    '{print bold $2 clearf}'
+}
+
+# -- aliases -------------------------------------------------------------------
+
+dirsize='du --human-readable --summarize --total'
+alias pwgen='apg -a 1 -m 16 -M SNcl -E l1O0'
+alias killtabs="ps aux | grep chrom  | grep 'disable-databases' | awk '{print $2}' | xargs kill -9"
+
+# networking aliases
+alias lan='qip ${LAN_ADAPTER}'
+alias wlan='qip ${WLAN_ADAPTER}'
+
+# systemctl 
+alias start='sudo systemctl start'
+alias status='sudo systemctl status'
+alias bounce='sudo systemctl restart'
+alias stop='sudo systemctl stop'
+
+
