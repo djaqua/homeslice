@@ -2,3 +2,4 @@
 bashrc.stub
 zshrc.stub
 
+*.local
